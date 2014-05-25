@@ -1,11 +1,30 @@
 apply plugin: 'groovy'
+apply plugin: 'maven'
+
+def env = System.getenv()
 
 repositories {
 	mavenCentral()
+  maven {
+    url "https://oss.sonatype.org/content/repositories/snapshots"
+  }
 }
 
 dependencies {
 	compile 'org.codehaus.groovy.modules.http-builder:http-builder:0.7'
 	compile 'org.codehaus.groovy:groovy-all:2.2.0'
   testCompile "org.spockframework:spock-core:0.7-groovy-2.0"
+}
+
+uploadArchives {
+  repositories {
+    mavenDeployer {
+      repository(url: "https://oss.sonatype.org/content/repositories/snapshots") {
+        authentication(userName: env['BINTRAY_USER'], password: env['BINTRAY_PASS'])
+      }
+      pom.version = "1.0-SNAPSHOT"
+      pom.artifactId = "geocoder"
+      pom.groupId = "com.github.rahulsom"
+    }
+  }
 }
