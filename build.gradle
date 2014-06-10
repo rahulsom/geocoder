@@ -22,7 +22,7 @@ uploadArchives {
       repository(url: "https://oss.sonatype.org/content/repositories/snapshots") {
         authentication(userName: env['BINTRAY_USER'], password: env['BINTRAY_PASS'])
       }
-      pom.version = "1.0-SNAPSHOT"
+      pom.version = "1.0"
       pom.artifactId = "geocoder"
       pom.groupId = "com.github.rahulsom"
     }
