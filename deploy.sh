@@ -21,13 +21,11 @@ REPOCONF="-Durl=https://oss.sonatype.org/service/local/staging/deploy/maven2/ \
     -DrepositoryId=sonatype-nexus-staging \
     -Dgpg.passphrase=${PASSPHRASE}"
 
-mvn clean install
+echo mvn gpg:sign-and-deploy-file $REPOCONF -DpomFile=build/poms/pom-default.xml -Dfile=build/lib/${LIB_NAME}-${LIB_VER}.jar
+mvn gpg:sign-and-deploy-file $REPOCONF -DpomFile=build/poms/pom-default.xml -Dfile=build/lib/${LIB_NAME}-${LIB_VER}.jar
 
-echo mvn gpg:sign-and-deploy-file $REPOCONF -DpomFile=pom.xml -Dfile=target/${LIB_NAME}-${LIB_VER}.jar
-mvn gpg:sign-and-deploy-file $REPOCONF -DpomFile=pom.xml -Dfile=target/${LIB_NAME}-${LIB_VER}.jar
+# echo mvn gpg:sign-and-deploy-file $REPOCONF -DpomFile=pom.xml -Dfile=target/${LIB_NAME}-${LIB_VER}-sources.jar -Dclassifier=sources
+# mvn gpg:sign-and-deploy-file $REPOCONF -DpomFile=pom.xml -Dfile=target/${LIB_NAME}-${LIB_VER}-sources.jar -Dclassifier=sources
 
-echo mvn gpg:sign-and-deploy-file $REPOCONF -DpomFile=pom.xml -Dfile=target/${LIB_NAME}-${LIB_VER}-sources.jar -Dclassifier=sources
-mvn gpg:sign-and-deploy-file $REPOCONF -DpomFile=pom.xml -Dfile=target/${LIB_NAME}-${LIB_VER}-sources.jar -Dclassifier=sources
-
-echo mvn gpg:sign-and-deploy-file $REPOCONF -DpomFile=pom.xml -Dfile=target/${LIB_NAME}-${LIB_VER}-javadoc.jar -Dclassifier=javadoc
-mvn gpg:sign-and-deploy-file $REPOCONF -DpomFile=pom.xml -Dfile=target/${LIB_NAME}-${LIB_VER}-javadoc.jar -Dclassifier=javadoc
+# echo mvn gpg:sign-and-deploy-file $REPOCONF -DpomFile=pom.xml -Dfile=target/${LIB_NAME}-${LIB_VER}-javadoc.jar -Dclassifier=javadoc
+# mvn gpg:sign-and-deploy-file $REPOCONF -DpomFile=pom.xml -Dfile=target/${LIB_NAME}-${LIB_VER}-javadoc.jar -Dclassifier=javadoc
