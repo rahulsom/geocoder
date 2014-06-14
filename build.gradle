@@ -1,8 +1,9 @@
 apply plugin: 'groovy'
 apply plugin: 'maven'
+apply plugin: 'signing'
 
 group "com.github.rahulsom"
-version "1.0"
+version "1.1-SNAPSHOT"
 
 def env = System.getenv()
 
@@ -19,12 +20,66 @@ dependencies {
   testCompile "org.spockframework:spock-core:0.7-groovy-2.0"
 }
 
-uploadArchives {
-  repositories {
-    mavenDeployer {
-      repository(url: "https://oss.sonatype.org/content/repositories/snapshots") {
-        authentication(userName: env['BINTRAY_USER'], password: env['BINTRAY_PASS'])
-      }
-    }
-  }
+task sourcesJar(type: Jar, dependsOn: classes) {
+    classifier = 'sources'
+    from sourceSets.main.allSource
 }
+
+task javadocJar(type: Jar, dependsOn: javadoc) {
+    classifier = 'javadoc'
+    from javadoc.destinationDir
+}
+
+artifacts {
+    archives sourcesJar
+    archives javadocJar
+}
+
+signing {
+    sign configurations.archives
+}
+
+uploadArchives {
+    repositories {
+        mavenDeployer {
+            beforeDeployment { MavenDeployment deployment -> signing.signPom(deployment) }
+ 
+            repository(url: "https://oss.sonatype.org/service/local/staging/deploy/maven2/") {
+              authentication(userName: env['BINTRAY_USER'], password: env['BINTRAY_PASS'])
+            }
+
+            snapshotRepository(url: "https://oss.sonatype.org/content/repositories/snapshots") {
+              authentication(userName: env['BINTRAY_USER'], password: env['BINTRAY_PASS'])
+            }
+ 
+            pom.project {
+               name 'geocoder'
+               packaging 'jar'
+               description 'geocoder makes it easy to geocode in groovy'
+               url 'http://github.com/rahulsom/geocoder'
+ 
+               scm {
+                   url 'scm:git@github.com:rahulsom/geocoder.git'
+                   connection 'scm:git@github.com:rahulsom/geocoder.git'
+                   developerConnection 'scm:git@github.com:rahulsom/geocoder.git'
+               }
+ 
+               licenses {
+                   license {
+                       name 'The Apache Software License, Version 2.0'
+                       url 'http://www.apache.org/licenses/LICENSE-2.0.txt'
+                       distribution 'repo'
+                   }
+               }
+ 
+               developers {
+                   developer {
+                       id 'rahulsom'
+                       name 'Rahul Somasunderam'
+                   }
+               }
+           }
+        }
+    }
+}
+
