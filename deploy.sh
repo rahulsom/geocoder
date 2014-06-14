@@ -21,8 +21,8 @@ REPOCONF="-Durl=https://oss.sonatype.org/service/local/staging/deploy/maven2/ \
     -DrepositoryId=sonatype-nexus-staging \
     -Dgpg.passphrase=${PASSPHRASE}"
 
-echo mvn gpg:sign-and-deploy-file $REPOCONF -DpomFile=build/poms/pom-default.xml -Dfile=build/lib/${LIB_NAME}-${LIB_VER}.jar
-mvn gpg:sign-and-deploy-file $REPOCONF -DpomFile=build/poms/pom-default.xml -Dfile=build/lib/${LIB_NAME}-${LIB_VER}.jar
+echo mvn gpg:sign-and-deploy-file $REPOCONF -DpomFile=build/poms/pom-default.xml -Dfile=build/libs/${LIB_NAME}-${LIB_VER}.jar
+mvn gpg:sign-and-deploy-file $REPOCONF -DpomFile=build/poms/pom-default.xml -Dfile=build/libs/${LIB_NAME}-${LIB_VER}.jar
 
 # echo mvn gpg:sign-and-deploy-file $REPOCONF -DpomFile=pom.xml -Dfile=target/${LIB_NAME}-${LIB_VER}-sources.jar -Dclassifier=sources
 # mvn gpg:sign-and-deploy-file $REPOCONF -DpomFile=pom.xml -Dfile=target/${LIB_NAME}-${LIB_VER}-sources.jar -Dclassifier=sources
