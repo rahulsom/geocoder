@@ -3,3 +3,6 @@
 *.iml
 build
 gradle.properties
+gradle.properties
+*.gpg
+secrets.tar.gz
