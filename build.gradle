@@ -9,77 +9,77 @@ def env = System.getenv()
 
 repositories {
 	mavenCentral()
-  maven {
-    url "https://oss.sonatype.org/content/repositories/snapshots"
-  }
+	maven {
+		url "https://oss.sonatype.org/content/repositories/snapshots"
+	}
 }
 
 dependencies {
 	compile 'org.codehaus.groovy.modules.http-builder:http-builder:0.7.1'
-	compile 'org.codehaus.groovy:groovy-all:2.2.0'
-  testCompile "org.spockframework:spock-core:0.7-groovy-2.0"
+	compile 'org.codehaus.groovy:groovy-all:2.5.+'
+	testCompile "org.spockframework:spock-core:1.3-groovy-2.5"
 }
 
 task sourcesJar(type: Jar, dependsOn: classes) {
-    classifier = 'sources'
-    from sourceSets.main.allSource
+	classifier = 'sources'
+	from sourceSets.main.allSource
 }
 
 task javadocJar(type: Jar, dependsOn: javadoc) {
-    classifier = 'javadoc'
-    from javadoc.destinationDir
+	classifier = 'javadoc'
+	from javadoc.destinationDir
 }
 
 artifacts {
-    archives sourcesJar
-    archives javadocJar
+	archives sourcesJar
+	archives javadocJar
 }
 
 signing {
-    sign configurations.archives
+	sign configurations.archives
 }
 
 uploadArchives {
-    repositories {
-        mavenDeployer {
-            beforeDeployment { MavenDeployment deployment -> signing.signPom(deployment) }
- 
-            repository(url: "https://oss.sonatype.org/service/local/staging/deploy/maven2/") {
-              authentication(userName: env['BINTRAY_USER'], password: env['BINTRAY_PASS'])
-            }
+	repositories {
+		mavenDeployer {
+			beforeDeployment { MavenDeployment deployment -> signing.signPom(deployment) }
 
-            snapshotRepository(url: "https://oss.sonatype.org/content/repositories/snapshots") {
-              authentication(userName: env['BINTRAY_USER'], password: env['BINTRAY_PASS'])
-            }
- 
-            pom.project {
-               name 'geocoder'
-               packaging 'jar'
-               description 'geocoder makes it easy to geocode in groovy'
-               url 'http://github.com/rahulsom/geocoder'
- 
-               scm {
-                   url 'scm:git@github.com:rahulsom/geocoder.git'
-                   connection 'scm:git@github.com:rahulsom/geocoder.git'
-                   developerConnection 'scm:git@github.com:rahulsom/geocoder.git'
-               }
- 
-               licenses {
-                   license {
-                       name 'The Apache Software License, Version 2.0'
-                       url 'http://www.apache.org/licenses/LICENSE-2.0.txt'
-                       distribution 'repo'
-                   }
-               }
- 
-               developers {
-                   developer {
-                       id 'rahulsom'
-                       name 'Rahul Somasunderam'
-                   }
-               }
-           }
-        }
-    }
+			repository(url: "https://oss.sonatype.org/service/local/staging/deploy/maven2/") {
+				authentication(userName: env['BINTRAY_USER'], password: env['BINTRAY_PASS'])
+			}
+
+			snapshotRepository(url: "https://oss.sonatype.org/content/repositories/snapshots") {
+				authentication(userName: env['BINTRAY_USER'], password: env['BINTRAY_PASS'])
+			}
+
+			pom.project {
+				name 'geocoder'
+				packaging 'jar'
+				description 'geocoder makes it easy to geocode in groovy'
+				url 'http://github.com/rahulsom/geocoder'
+
+				scm {
+					url 'scm:git@github.com:rahulsom/geocoder.git'
+					connection 'scm:git@github.com:rahulsom/geocoder.git'
+					developerConnection 'scm:git@github.com:rahulsom/geocoder.git'
+				}
+
+				licenses {
+					license {
+						name 'The Apache Software License, Version 2.0'
+						url 'http://www.apache.org/licenses/LICENSE-2.0.txt'
+						distribution 'repo'
+					}
+				}
+
+				developers {
+					developer {
+						id 'rahulsom'
+						name 'Rahul Somasunderam'
+					}
+				}
+			}
+		}
+	}
 }
 
